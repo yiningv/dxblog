@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 该xml配置中,xml元素大小写不敏感 -->
+<!-- status="off",log4j2把自身事件记录到控制台的配置，off表示不记录，其余的记录有trace，debug，info，warn，error，fatal -->
+<!-- monitorInterval表示检测更改配置的时间,单位是秒,最小间隔为5秒,0或负数表示不检测 -->
+<Configuration name="test-cfg" status="off" monitorInterval="0">
+
+    <!-- 常量引用 -->
+    <Properties>
+        <!--<property name="LOG_HOME">/opt/logs/api-logs/</property>-->
+        <Property name="LOG_HOME">./logs</Property>
+        <Property name="FORMAT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <!-- appender用于接收各种日志 -->
+    <Appenders>
+        <!-- 常见的输出到console,常用于开发环境中,默认是system_err,还有一个system_out -->
+        <Console name="console" target="SYSTEM_OUT">
+            <!-- appender级别的日志过滤 -->
+            <!-- <thresholdFilter level="info" onMatch="accept" onMismatch="deny"/> -->
+            <PatternLayout pattern="${FORMAT}"/>
+        </Console>
+        <!-- 常用于开发环境,把日志记录到文件中,默认追加 -->
+        <RollingFile name="dx_info" fileName="${LOG_HOME}/dx_info.log" append="true"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM-dd}/dx_info-%d{yyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="20M"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+        <RollingFile name="dx_error" fileName="${LOG_HOME}/dx_error.log" append="true"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM-dd}/dx_error-%d{yyy-MM-dd}-%i.log.gz">
+            <patternLayout pattern="${FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="20M"/>
+            </Policies>
+            <Filters>
+                <!-- 只记录error级别信息 -->
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- 接收appender -->
+    <Loggers>
+        <!-- 对包进行更详细的配置 -->
+        <!-- additivity表示是否追加,防止重复,因为root已经接收过一次了 -->
+        <Logger name="com.yiningv.dxblog.mapper" level="DEBUG" additivity="true">
+            <AppenderRef ref="dx_info"/>
+            <AppenderRef ref="dx_error"/>
+        </Logger>
+        <!-- root logger,一般用于放置所有的appender -->
+        <Root level="DEBUG">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="dx_info"/>
+            <AppenderRef ref="dx_error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
