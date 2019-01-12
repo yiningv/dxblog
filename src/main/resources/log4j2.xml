@@ -53,7 +53,7 @@
             <AppenderRef ref="dx_error"/>
         </Logger>
         <!-- root logger,一般用于放置所有的appender -->
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="console"/>
             <AppenderRef ref="dx_info"/>
             <AppenderRef ref="dx_error"/>
