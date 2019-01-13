@@ -10,16 +10,17 @@
     </parent>
     <groupId>com.yiningv</groupId>
     <artifactId>dxblog</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>dxblog</name>
     <description>dxblog</description>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
         <flexmark.version>0.40.0</flexmark.version>
         <druid.version>1.1.10</druid.version>
         <log4j.version>2.6.2</log4j.version>
         <mysql.version>5.1.46</mysql.version>
+        <guava.version>27.0.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -85,12 +90,7 @@
         </dependency>
         <dependency>
             <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark</artifactId>
-            <version>${flexmark.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-tables</artifactId>
+            <artifactId>flexmark-all</artifactId>
             <version>${flexmark.version}</version>
         </dependency>
         <dependency>
@@ -102,6 +102,11 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 

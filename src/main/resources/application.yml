@@ -8,6 +8,11 @@ spring:
     cache-names: ehcache
     ehcache:
       config: ehcache.xml
+  freemarker:
+    enabled: true
+    cache: false
+    suffix: .ftl
+    charset: UTF-8
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/dxblog?useUnicode=true&;characterEncoding=UTF-8
@@ -76,7 +81,7 @@ mybatis:
   type-aliases-package: com.yiningv.dxblog.model.entity
 ## mapper
 mapper:
-  mappers: com.yiningv.dxblog.mapper
+  mappers: tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper
   not-empty: false
   identity: MYSQL
 ## pagehelper

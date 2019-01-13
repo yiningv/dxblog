@@ -9,7 +9,7 @@
         <property name="endingDelimiter" value="`"/>
 
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper"/>
         </plugin>
 
         <commentGenerator>
