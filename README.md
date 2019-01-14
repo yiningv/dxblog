@@ -1,4 +1,2 @@
-[TOC]
 # dxblog
 dxblog
-## test
