@@ -4,7 +4,4 @@
 <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
 
 <!-- Import CSS -->
-<style id="bulma_css"></style><script>lsloader.css("bulma_css","/vendor/bulma/bulma.min.css")</script>
-<style id="svg_css"></style><script>lsloader.css("svg_css","/css/style.min.css")</script>
-<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script>
-<script src="/js/main.js"></script>
+<style id="bulma_css"></style><script>lsloader.css("bulma_css","vendor/bulma/bulma.min.css")</script>

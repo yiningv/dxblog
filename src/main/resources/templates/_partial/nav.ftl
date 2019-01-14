@@ -4,7 +4,7 @@
             <a class="navbar-item" href="/">
                 <span>Yining的博客</span>
             </a>
-            <a class="navbar-item is-hidden-desktop" href="https://github.com/jgthms/bulma" target="_blank">
+            <a class="navbar-item is-hidden-desktop" href="https://github.com/yiningv" target="_blank">
                 <span class="icon" style="color: #333;">
                     <i class="fab fa-lg fa-github-alt"></i>
                 </span>
