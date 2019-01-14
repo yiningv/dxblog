@@ -4,7 +4,7 @@
 <body>
 <#include "_partial/header.ftl">
 <#--index/post/archive/tags/about-->
-<#include "">
+<#include "${body}.ftl">
 <#include "_partial/footer.ftl">
 </body>
 </html>

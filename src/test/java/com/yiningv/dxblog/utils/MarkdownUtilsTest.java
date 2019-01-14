@@ -1,7 +1,5 @@
 package com.yiningv.dxblog.utils;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -18,7 +16,8 @@ public class MarkdownUtilsTest {
 				"```go\nfunc main(){}\n```",
 				"[MySQL](https://www.mysql.com)",
 				"1231hajajs\n<a>hhh</a>",
-				"- [ ] Replace Jade with Thymeleaf(HTML)"
+				"- [ ] Replace Jade with Thymeleaf(HTML)",
+				"[TOC]\n# title\ncontent\n## title2\n### 中文\n## title2"
 		);
 		inputs.forEach(input -> {
 			String html = MarkdownUtils.renderToHtml(input);

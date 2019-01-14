@@ -19,6 +19,7 @@ public class IndexController {
         demos.add("bbb");
         demos.add("ccc");
         model.addAttribute("demos", demos);
-        return "index";
+        model.addAttribute("body", "index");
+        return "layout";
     }
 }

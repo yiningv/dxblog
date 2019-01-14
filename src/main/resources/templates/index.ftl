@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<#include "_partial/head.ftl">
-<body>
-<#include "_partial/nav.ftl">
-
 <section class="section">
     <div class="container">
         <div class="list">
@@ -13,21 +7,3 @@
         </div>
     </div>
 </section>
-
-<div class="section">
-    <div class="container">
-        <div class="box">
-            <div class="media">
-                <div class="media-content">
-                    <div class="content">
-                        <p>内容</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<#include "_partial/_source/footer.ftl">
-</body>
-</html>
