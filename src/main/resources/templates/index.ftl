@@ -1,7 +1,7 @@
 <section class="section">
     <div class="container">
         <div class="columns">
-            <div class="column is-3">
+            <div class="column is-3 is-hidden-mobile">
                 <aside class="menu">
                     <div class="card">
                         <div class="card-content">
@@ -17,7 +17,16 @@
                     <#list demos as demo>
                         <div class="card">
                             <div class="card-content">
-                                ${demo}
+                                <article>
+                                    <h1>${demo}</h1>
+                                    <div class="content is-hidden-mobile">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                                        <a href="#">#css</a> <a href="#">#responsive</a>
+                                        <br>
+                                    </div>
+                                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                </article>
                             </div>
                         </div>
                     </#list>
