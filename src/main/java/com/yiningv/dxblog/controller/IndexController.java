@@ -15,9 +15,9 @@ public class IndexController {
     @RequestMapping(path = {"", "/", "/index"})
     public String index(Model model) {
         List<String> demos = new ArrayList<>();
-        demos.add("aaa");
-        demos.add("bbb");
-        demos.add("ccc");
+        for (int i = 0; i < 10 ; i++) {
+            demos.add(String.format("demo%d%d%d", i, i, i));
+        }
         model.addAttribute("demos", demos);
         model.addAttribute("body", "index");
         return "layout";
