@@ -19,7 +19,7 @@
                             <div class="card-content">
                                 <article>
                                     <h1>${demo}</h1>
-                                    <div class="content is-hidden-mobile">
+                                    <div class="content">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                         Phasellus nec iaculis mauris. <a>@bulmaio</a>.
                                         <a href="#">#css</a> <a href="#">#responsive</a>
