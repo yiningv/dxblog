@@ -1,4 +1,4 @@
-package com.yiningv.dxblog.utils;
+package com.yiningv.dxblog.util;
 
 import com.google.common.collect.Sets;
 import com.vladsch.flexmark.Extension;

@@ -17,7 +17,7 @@ public class GitHubWebhookServiceImpl implements GitHubWebhookService {
         JsonNode repository = payloadJson.get("repository");
         String repositoryNodeId = repository.get("node_id").asText(null);
         long repositoryId = repository.get("id").asLong(0L);
-        JsonNode repositoryUrl = repository.get("url");
+        JsonNode repositoryUrl = repository.get("contents_url");
         
     }
 

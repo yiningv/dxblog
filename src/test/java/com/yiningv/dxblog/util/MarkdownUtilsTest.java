@@ -1,4 +1,4 @@
-package com.yiningv.dxblog.utils;
+package com.yiningv.dxblog.util;
 
 import org.junit.Test;
 
