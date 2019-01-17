@@ -32,3 +32,11 @@ management:
   endpoint:
     health:
       show-details: always
+
+# httpclient
+httpclient:
+  maxTotal: 100
+  maxPerRoute: 20
+  connectTimeout: 1000
+  connectionRequestTimeout: 500
+  socketTimeout: 10000

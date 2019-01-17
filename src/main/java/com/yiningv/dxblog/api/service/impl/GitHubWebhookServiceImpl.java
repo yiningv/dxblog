@@ -12,15 +12,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class GitHubWebhookServiceImpl implements GitHubWebhookService {
 
+    @Override
+    public void handlePingPayload(JsonNode payloadJson) {
+        JsonNode repository = payloadJson.get("repository");
+        String repositoryNodeId = repository.get("node_id").asText(null);
+        long repositoryId = repository.get("id").asLong(0L);
+        JsonNode repositoryUrl = repository.get("url");
+        
+    }
+
     @Async
     @Override
-    public void handlePushPayload(String payload) {
+    public void handlePushPayload(JsonNode payloadJson) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            JsonNode payloadJson = objectMapper.readTree(payload);
             JsonNode headCommitJson = payloadJson.get("head_commit");
         } catch (Exception e) {
             log.error("handlePushPayload error.", e);
         }
     }
+
 }

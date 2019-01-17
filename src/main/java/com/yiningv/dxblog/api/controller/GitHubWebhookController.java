@@ -27,14 +27,14 @@ public class GitHubWebhookController {
     @Autowired
     private GitHubWebhookService webhookService;
 
-    @PostMapping("/hook_push")
+    @PostMapping("/hook-push")
     public ResponseEntity<String> hookPushApi(@RequestHeader("X-GitHub-Event") String event,
                                   @RequestHeader("X-Hub-Signature") String signature,
                                   @RequestBody String payload) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Webhook-Version", VERSION.getVersionNumber());
 
-        if (event == null || !"push".equals(event)) {
+        if (event == null || !"ping".equals(event) || !"push".equals(event)) {
             return new ResponseEntity<>("Invalid event.", headers, HttpStatus.BAD_REQUEST);
         }
 
@@ -47,16 +47,30 @@ public class GitHubWebhookController {
             return new ResponseEntity<>("Invalid signature.", headers, HttpStatus.UNAUTHORIZED);
         }
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode payloadJson;
         try {
-            log.info(payload);
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode payloadJson = objectMapper.readTree(payload);
-            JsonNode headCommitJson = payloadJson.get("head_commit");
-            // 处理commit中的added,modified,removed
-            webhookService.handlePushPayload(payload);
+            payloadJson = objectMapper.readTree(payload);
         } catch (Exception e) {
             log.error("Unable to parse payload.", e);
-            return new ResponseEntity<>("Unable to parse payload.", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), headers, HttpStatus.BAD_REQUEST);
+        }
+
+        if ("ping".equals(event)) {
+            try {
+                webhookService.handlePingPayload(payloadJson);
+                return new ResponseEntity<>("pong", headers, HttpStatus.OK);
+            } catch (Exception e) {
+                log.error("handle push-payload error.", e);
+                return new ResponseEntity<>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        try {
+            webhookService.handlePushPayload(payloadJson);
+        } catch (Exception e) {
+            log.error("handle push-payload error.", e);
+            return new ResponseEntity<>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         int bytes = payload.getBytes().length;
