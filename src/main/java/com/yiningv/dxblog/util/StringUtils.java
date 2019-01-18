@@ -9,4 +9,8 @@ public abstract class StringUtils {
     public static boolean isBlank(String value) {
         return value == null || value.trim().length() == 0;
     }
+
+    public static String ifBlankDefault(String value, String defaultVal) {
+        return isBlank(value)? defaultVal : value;
+    }
 }

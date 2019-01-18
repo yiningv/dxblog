@@ -11,19 +11,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HttpClientConfig {
 
-    @Value("${httpclient.maxTotal}")
+    @Value("${httpclient.max-total}")
     private Integer maxTotal;
 
-    @Value("${httpclient.maxPerRoute}")
+    @Value("${httpclient.max-per-route}")
     private Integer maxPerRoute;
 
-    @Value("${httpclient.connectTimeout}")
+    @Value("${httpclient.connect-timeout}")
     private Integer connectTimeout;
 
-    @Value("${httpclient.connectionRequestTimeout}")
+    @Value("${httpclient.connection-request-timeout}")
     private Integer connectionRequestTimeout;
 
-    @Value("${httpclient.socketTimeout}")
+    @Value("${httpclient.socket-timeout}")
     private Integer socketTimeout;
 
     /**

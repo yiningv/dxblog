@@ -2,7 +2,7 @@ package com.yiningv.dxblog.api.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yiningv.dxblog.VERSION;
+import com.yiningv.dxblog.DxConst;
 import com.yiningv.dxblog.api.service.GitHubWebhookService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -31,7 +31,7 @@ public class GitHubWebhookController {
                                   @RequestHeader("X-Hub-Signature") String signature,
                                   @RequestBody String payload) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Webhook-Version", VERSION.getVersionNumber());
+        headers.add("X-Webhook-Version", DxConst.VERSION);
 
         if (event == null || !"ping".equals(event) || !"push".equals(event)) {
             return new ResponseEntity<>("Invalid event.", headers, HttpStatus.BAD_REQUEST);

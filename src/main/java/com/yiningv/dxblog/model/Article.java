@@ -20,10 +20,13 @@ public class Article {
     @Id
     private String id;
 
-    // 根据github上文件的相对路径计算md5
+    // 文章所在github仓库id + 文件的相对路径md5
     @NonNull
     @Indexed(unique = true)
-    private String md5;
+    private String articleId;
+
+    @NonNull
+    private String reposId;
 
     @NonNull
     private String title;

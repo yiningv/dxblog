@@ -1,7 +1,10 @@
 package com.yiningv.dxblog.controller;
 
+import com.yiningv.dxblog.DxConst;
 import com.yiningv.dxblog.model.Article;
+import com.yiningv.dxblog.model.SiteSetting;
 import com.yiningv.dxblog.service.ArticleService;
+import com.yiningv.dxblog.util.MapCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,15 +25,20 @@ public class IndexController {
 
     @RequestMapping(path = {"/"})
     public String index(Model model) {
-        Article article = Article.builder()
-                .category("aaa")
-                .title("test")
-                .updated(new Date())
-                .build();
-        articleService.save(article);
+//        Article article = Article.builder()
+//                .id("aassd")
+//                .category("aaa")
+//                .title("test")
+//                .content("sasa")
+//                .updated(new Date())
+//                .build();
+//        articleService.save(article);
+//
+//        List<Article> list = articleService.findAll();
+//        list.forEach(System.out::println);
 
-        List<Article> list = articleService.findAll();
-        list.forEach(System.out::println);
+        Object o = MapCache.single().get(DxConst.SITE_SETTING);
+        System.out.println(o);
 
         List<String> demos = new ArrayList<>();
         for (int i = 0; i < 10 ; i++) {

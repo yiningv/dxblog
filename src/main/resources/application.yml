@@ -1,3 +1,10 @@
+## SiteSetting
+site-setting:
+  title: yining's Blog
+  subtitle: yining's Blog
+  description: 个人博客
+  author: yining
+
 ## 服务配置
 server:
   port: 8989
@@ -18,9 +25,7 @@ spring:
       host: localhost
       port: 27017
       database: dxblog
-# application
-application:
-  version: @project.version@
+
 # actuator
 management:
   server:
@@ -35,8 +40,8 @@ management:
 
 # httpclient
 httpclient:
-  maxTotal: 100
-  maxPerRoute: 20
-  connectTimeout: 1000
-  connectionRequestTimeout: 500
-  socketTimeout: 10000
+  max-total: 100
+  max-per-route: 20
+  connect-timeout: 1000
+  connection-request-timeout: 500
+  socket-timeout: 10000

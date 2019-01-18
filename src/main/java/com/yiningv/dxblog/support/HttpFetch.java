@@ -17,7 +17,7 @@ public class HttpFetch {
     @Autowired
     private RequestConfig requestConfig;
 
-    public String doGet(String url) throws Exception {
+    public String get(String url) throws Exception {
         HttpGet httpGet = new HttpGet(url);
 
         httpGet.setConfig(requestConfig);
