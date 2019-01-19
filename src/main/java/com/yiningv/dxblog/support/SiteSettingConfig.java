@@ -3,10 +3,10 @@ package com.yiningv.dxblog.support;
 import com.yiningv.dxblog.DxConst;
 import com.yiningv.dxblog.model.SiteSetting;
 import com.yiningv.dxblog.util.MapCache;
-import com.yiningv.dxblog.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 @Configuration
 public class SiteSettingConfig {
@@ -27,13 +27,17 @@ public class SiteSettingConfig {
             return (SiteSetting) siteSettingObj;
         }
         SiteSetting siteSetting = SiteSetting.builder()
-                .title(StringUtils.ifBlankDefault(title, "yining's Blog"))
-                .subtitle(StringUtils.ifBlankDefault(subtitle, "yining's Blog"))
-                .description(StringUtils.ifBlankDefault(description, "yining's Blog"))
-                .author(StringUtils.ifBlankDefault(author, "yining"))
+                .title(StringUtils.hasText(title)? title : "yining's Blog")
+                .subtitle(StringUtils.hasText(title)? title : "yining's Blog")
+                .description(StringUtils.hasText(title)? title : "yining's Blog")
+                .author(StringUtils.hasText(title)? title : "yining")
                 .build();
 
         MapCache.single().set(DxConst.SITE_SETTING, siteSetting);
         return siteSetting;
+    }
+
+    private static String ifBlankDefault(String str, String defaultStr) {
+        return (StringUtils.hasText(str)? defaultStr : str);
     }
 }

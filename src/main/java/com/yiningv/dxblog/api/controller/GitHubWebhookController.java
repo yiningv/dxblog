@@ -49,6 +49,7 @@ public class GitHubWebhookController {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadJson;
         try {
+            // 预解析
             payloadJson = objectMapper.readTree(payload);
         } catch (Exception e) {
             log.error("Unable to parse payload.", e);
@@ -56,13 +57,7 @@ public class GitHubWebhookController {
         }
 
         if ("ping".equals(event)) {
-            try {
-                webhookService.handlePingPayload(payloadJson);
-                return new ResponseEntity<>("pong", headers, HttpStatus.OK);
-            } catch (Exception e) {
-                log.error("handle push-payload error.", e);
-                return new ResponseEntity<>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return new ResponseEntity<>("pong", headers, HttpStatus.OK);
         }
 
         try {

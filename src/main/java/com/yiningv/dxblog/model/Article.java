@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Data
 @Builder
-@ToString(callSuper = false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Document("article")
@@ -28,10 +28,15 @@ public class Article {
     @NonNull
     private String reposId;
 
+    // github api读取到的sha
+    private String sha;
+
+    private String htmlUrl;
+
     @NonNull
     private String title;
 
-    private String summary;
+    private String description;
 
     @NonNull
     private String content;
@@ -41,7 +46,5 @@ public class Article {
     private Set<String> tags;
 
     private Date created;
-
-    private Date updated;
 
 }

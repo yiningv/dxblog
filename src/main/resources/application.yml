@@ -37,11 +37,3 @@ management:
   endpoint:
     health:
       show-details: always
-
-# httpclient
-httpclient:
-  max-total: 100
-  max-per-route: 20
-  connect-timeout: 1000
-  connection-request-timeout: 500
-  socket-timeout: 10000

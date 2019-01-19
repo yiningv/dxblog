@@ -1,36 +1,18 @@
 package com.yiningv.dxblog.util;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.InputStream;
 
 public class MarkdownUtilsTest {
 
 	@Test
-	public void testRenderToHtml() {
-		List<String> inputs = Arrays.asList(
-//				"This is *Sparta*",
-//				"# This is title h1\ncontent\n",
-//				"## This is title h2",
-//				"- dot",
-//				"```go\nfunc main(){}\n```",
-//				"[MySQL](https://www.mysql.com)",
-//				"1231hajajs\n<a>hhh</a>",
-//				"- [ ] Replace Jade with Thymeleaf(HTML)",
-//				"# title\ncontent\n## title2\n### 中文\n## title2",
-				"# h1\n## h2\n### h3"
-//				"---" +
-//						"\nhello: world" +
-//						"\n..." +
-//						"\n" +
-//						"\ngreat",
-//				"http://github.com/vsch/flexmark-java"
-		);
-		inputs.forEach(input -> {
-			String html = MarkdownUtils.renderToHtml(input);
-			System.out.println(html);
-		});
+	public void testRenderToHtml() throws Exception {
+		InputStream resourceAsStream = MarkdownUtilsTest.class.getResourceAsStream("/markdown_test.md");
+		String content = IOUtils.toString(resourceAsStream, "UTF-8");
+		MarkdownUtils.ArticleMeta articleMeta = MarkdownUtils.renderToArticle(content, "https://raw.githubusercontent.com/yiningv/blog/master");
+		System.out.println(articleMeta);
 	}
 
 }
