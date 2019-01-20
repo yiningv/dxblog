@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class ArticleOperationsImpl implements ArticleOperations {
                 Aggregation.project("_id", "tagCount"));
         AggregationResults<TagCount> results = mongoOperations.aggregate(aggregation, TagCount.class);
         return results.getMappedResults();
+    }
+
+    @Override
+    public void deleteByReposId(String reposId) {
+        mongoOperations.remove(new Query(Criteria.where("reposId").is(reposId)), Article.class);
     }
 
 }

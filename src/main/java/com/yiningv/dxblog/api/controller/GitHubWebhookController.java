@@ -57,7 +57,13 @@ public class GitHubWebhookController {
         }
 
         if ("ping".equals(event)) {
-            return new ResponseEntity<>("pong", headers, HttpStatus.OK);
+            try {
+                webhookService.syncReposPosts(payloadJson);
+                return new ResponseEntity<>("pong", headers, HttpStatus.OK);
+            } catch (Exception e) {
+                log.error("handle ping-payload error.", e);
+                return new ResponseEntity<>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
 
         try {

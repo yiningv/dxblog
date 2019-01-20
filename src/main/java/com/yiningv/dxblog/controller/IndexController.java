@@ -19,19 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @Slf4j
 public class IndexController {
 
-    static AtomicInteger count = new AtomicInteger(1);
     @Autowired
     private ArticleService articleService;
 
     @RequestMapping(path = {"/"})
     public String index(Model model) {
-        count.incrementAndGet();
         Article article = Article.builder()
                 .id("sdaas")
                 .reposId("12")

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Slf4j
@@ -25,6 +26,25 @@ public class GitHubWebhookServiceImpl implements GitHubWebhookService {
     private GitHubService gitHubService;
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Async
+    @Override
+    public void syncReposPosts(JsonNode payloadJson) {
+        // 由于在没有接入webhook期间，文档结构会发生变化，
+        // 所以干脆使用删除后再添加的方式同步，反正github有文章的备份
+        JsonNode reposJson = payloadJson.get("repository");
+        String reposId = reposJson.get("id").asText();
+        String reposName = reposJson.get("full_name").asText();
+        String url = String.format("https://api.github.com/repos/%s/contents/%s?ref=master", reposName, DxConst.ARTICLE_ROOT);
+        Set<String> articlePathSet = gitHubService.getArticlePath(url);
+        List<Article> articles = Lists.newArrayList();
+        articlePathSet.forEach(path -> {
+            Optional<Article> articleOptional = this.getArticle(reposId, reposName, path);
+            articleOptional.ifPresent(it -> articles.add(it));
+        });
+        articleRepository.deleteByReposId(reposId);
+        articleRepository.saveAll(articles);
+    }
 
     @Async
     @Override
@@ -45,7 +65,7 @@ public class GitHubWebhookServiceImpl implements GitHubWebhookService {
                 String path = removedJson.get(i).asText();
                 // 看不得不统一的后缀，即使大写后缀也不行
 
-                if (path.startsWith(DxConst.ARTICLE_ROOT) && path.endsWith(".md")) {
+                if (path.startsWith(DxConst.ARTICLE_ROOT.concat("/")) && path.endsWith(".md")) {
                     // 计算articleId
                     String pathMd5 = DigestUtils.md5Hex(path);
                     String id = formatArticleId(reposId, pathMd5);
@@ -80,16 +100,21 @@ public class GitHubWebhookServiceImpl implements GitHubWebhookService {
         List<Article> articles = Lists.newArrayList();
         for (int i = 0; i < jsonNode.size(); i++) {
             String path = jsonNode.get(i).asText();
-            if (path.startsWith(DxConst.ARTICLE_ROOT) && path.endsWith(".md")) {
-                // 计算articleId
-                String pathMd5 = DigestUtils.md5Hex(path);
-                String articleId = formatArticleId(reposId, pathMd5);
-                String url = String.format("https://api.github.com/repos/%s/contents/%s?ref=master", reposName, path);
-                Optional<Article> articleContent = gitHubService.getArticleContent(url, reposId, reposName, articleId);
+            if (path.startsWith(DxConst.ARTICLE_ROOT.concat("/")) && path.endsWith(".md")) {
+                Optional<Article> articleContent = this.getArticle(reposId, reposName, path);
                 articleContent.ifPresent(it -> articles.add(it));
             }
         }
         return articles;
+    }
+
+    private Optional<Article> getArticle(String reposId, String reposName, String path) {
+        // 计算articleId
+        String pathMd5 = DigestUtils.md5Hex(path);
+        String articleId = formatArticleId(reposId, pathMd5);
+        String url = String.format("https://api.github.com/repos/%s/contents/%s?ref=master", reposName, path);
+        Optional<Article> articleContent = gitHubService.getArticleContent(url, reposId, reposName, articleId);
+        return articleContent;
     }
 
 }

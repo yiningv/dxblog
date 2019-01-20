@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -75,6 +74,30 @@ public class GitHubServiceImpl implements GitHubService {
             log.error("parse content error.", e);
         }
         return result;
+    }
+
+    /**
+     *
+     * @param contentsUrl posts文件夹的url
+     * @return 所有文件的路径
+     */
+    @Override
+    public Set<String> getArticlePath(String contentsUrl) {
+        Set<String> pathSet = Sets.newHashSet();
+        JsonNode bodyJson = this.getBodyAsJsonNode(contentsUrl);
+        for (int i = 0; i < bodyJson.size(); i++) {
+            JsonNode infoNode = bodyJson.get(i);
+            String type = infoNode.get("type").asText();
+            if ("dir".equals(type)) {
+                String url = infoNode.get("url").asText();
+                pathSet.addAll(this.getArticlePath(url));
+            }
+            String path = infoNode.get("path").asText();
+            if ("file".equals(type) && StringUtils.endsWith(path, ".md")) {
+                pathSet.add(path);
+            }
+        }
+        return pathSet;
     }
 
     @Override

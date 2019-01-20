@@ -8,4 +8,6 @@ import java.util.List;
 public interface ArticleOperations {
 
     List<TagCount> findAllTags();
+
+    void deleteByReposId(String reposId);
 }

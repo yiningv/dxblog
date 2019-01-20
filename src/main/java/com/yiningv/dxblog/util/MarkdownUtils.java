@@ -95,8 +95,8 @@ public class MarkdownUtils {
                 rawUrl = rawUrl.concat("/");
             }
 
-            if (source.startsWith("../") && source.contains(DxConst.IMAGES_PREFIX)) {
-                source = source.substring(source.indexOf(DxConst.IMAGES_PREFIX));
+            if (source.startsWith("../") && source.contains(DxConst.IMAGES_PREFIX.concat("/"))) {
+                source = source.substring(source.indexOf(DxConst.IMAGES_PREFIX.concat("/")));
                 source = rawUrl + source;
             }
 
