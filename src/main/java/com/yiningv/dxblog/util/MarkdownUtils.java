@@ -28,7 +28,9 @@ import java.util.Set;
 
 public class MarkdownUtils {
 
-    private MarkdownUtils() {}
+    private MarkdownUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     private static final Set<Extension> EXTENSIONS = Sets.newHashSet(TablesExtension.create(),
             StrikethroughExtension.create(),

@@ -5,7 +5,9 @@ import com.yiningv.dxblog.model.SiteSetting;
 
 public class MapCacheUtils {
 
-    private MapCacheUtils() {}
+    private MapCacheUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     public static SiteSetting siteSetting() {
         Object siteSettingObj = MapCache.single().get(DxConst.SITE_SETTING);
