@@ -27,6 +27,8 @@ public class Article {
     // github api读取到的sha
     private String sha;
 
+    private String path;
+
     private String htmlUrl;
 
     @NonNull

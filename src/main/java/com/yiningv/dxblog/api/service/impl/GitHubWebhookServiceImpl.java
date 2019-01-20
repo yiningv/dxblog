@@ -113,7 +113,7 @@ public class GitHubWebhookServiceImpl implements GitHubWebhookService {
         String pathMd5 = DigestUtils.md5Hex(path);
         String articleId = formatArticleId(reposId, pathMd5);
         String url = String.format("https://api.github.com/repos/%s/contents/%s?ref=master", reposName, path);
-        Optional<Article> articleContent = gitHubService.getArticleContent(url, reposId, reposName, articleId);
+        Optional<Article> articleContent = gitHubService.getArticleContent(url, reposId, reposName, articleId, path);
         return articleContent;
     }
 

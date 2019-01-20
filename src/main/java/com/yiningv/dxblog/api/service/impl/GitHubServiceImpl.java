@@ -101,7 +101,7 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public Optional<Article> getArticleContent(String url, String reposId, String reposName, String articleId) {
+    public Optional<Article> getArticleContent(String url, String reposId, String reposName, String articleId, String path) {
         JsonNode bodyJson = this.getBodyAsJsonNode(url);
         String content = this.getContentFromJson(bodyJson);
         String sha = bodyJson.get("sha").asText();
@@ -144,6 +144,7 @@ public class GitHubServiceImpl implements GitHubService {
         Article article = Article.builder()
                 .id(articleId)
                 .reposId(reposId)
+                .path(path)
                 .sha(sha)
                 .htmlUrl(htmlUrl)
                 .title(title)

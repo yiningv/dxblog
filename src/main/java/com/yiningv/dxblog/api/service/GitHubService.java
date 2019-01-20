@@ -9,5 +9,5 @@ public interface GitHubService {
 
     Set<String> getArticlePath(String contentsUrl);
 
-    Optional<Article> getArticleContent(String url, String reposId, String reposName, String articleId);
+    Optional<Article> getArticleContent(String url, String reposId, String reposName, String articleId, String path);
 }
