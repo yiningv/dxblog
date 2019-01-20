@@ -1,8 +1,11 @@
 package com.yiningv.dxblog.repository;
 
 
-public interface ArticleOperations {
-    void deleteByArticleIdSet(Iterable<String> articleIds);
+import com.yiningv.dxblog.model.TagCount;
 
-    void deleteByArticleId(String articleId);
+import java.util.List;
+
+public interface ArticleOperations {
+
+    List<TagCount> findAllTags();
 }

@@ -5,6 +5,7 @@ import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.toc.TocExtension;
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor;
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
@@ -32,6 +33,7 @@ public class MarkdownUtils {
     private static final Set<Extension> EXTENSIONS = Sets.newHashSet(TablesExtension.create(),
             StrikethroughExtension.create(),
             TaskListExtension.create(),
+            TocExtension.create(),
             YamlFrontMatterExtension.create());
     private static final DataHolder OPTIONS = new MutableDataSet()
             .set(Parser.EXTENSIONS, EXTENSIONS);
@@ -47,9 +49,6 @@ public class MarkdownUtils {
         ArticleMeta articleMeta = new ArticleMeta();
         Map<String, List<String>> metaData = visitor.getData();
         metaData.forEach((key, value) -> {
-            System.out.println(key);
-            System.out.println(value);
-            System.out.println(value.size());
             if ("title".equals(key)) {
                 if (value.size() > 0) { articleMeta.setTitle(value.get(0)); }
             }
@@ -96,8 +95,9 @@ public class MarkdownUtils {
                 rawUrl = rawUrl.concat("/");
             }
 
-            if (source.startsWith(DxConst.STATIC_PREFIX)) {
-                source = rawUrl + source.replaceFirst("\\.\\./", "");
+            if (source.startsWith("../") && source.contains(DxConst.IMAGES_PREFIX)) {
+                source = source.substring(source.indexOf(DxConst.IMAGES_PREFIX));
+                source = rawUrl + source;
             }
 
             img.attr("src", source);

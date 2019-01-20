@@ -1,14 +1,17 @@
-## SiteSetting
+# SiteSetting
 site-setting:
   title: yining's Blog
   subtitle: yining's Blog
   description: 个人博客
   author: yining
 
-## 服务配置
+# 服务配置
 server:
   port: 8989
+
 spring:
+  profiles:
+    active: dev
   application:
     name: dxblog
   cache:
@@ -20,11 +23,6 @@ spring:
     cache: false
     suffix: .ftl
     charset: UTF-8
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: dxblog
 
 # actuator
 management:

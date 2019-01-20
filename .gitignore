@@ -25,3 +25,5 @@
 /.nb-gradle/
 
 logs
+
+application-prod.yml

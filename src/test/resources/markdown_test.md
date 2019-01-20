@@ -28,4 +28,4 @@ func main() {
 - [ ] Markdown preview while editing
 - [ ] Html editor
 
-![test](../img/1f44d.png?v8)
+![test](../../images/1f44d.png?v8)

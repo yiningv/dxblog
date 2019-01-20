@@ -23,4 +23,9 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findAll() {
         return articleRepository.findAll();
     }
+
+    @Override
+    public void aaaa() {
+        articleRepository.findAllTags();
+    }
 }

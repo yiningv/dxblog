@@ -119,7 +119,7 @@ public class GitHubServiceImpl implements GitHubService {
         }
 
         Article article = Article.builder()
-                .articleId(articleId)
+                .id(articleId)
                 .reposId(reposId)
                 .sha(sha)
                 .htmlUrl(htmlUrl)

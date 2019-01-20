@@ -17,13 +17,9 @@ import java.util.Set;
 @Document("article")
 public class Article {
 
+    // 文章所在github仓库id + 文件的相对路径md5
     @Id
     private String id;
-
-    // 文章所在github仓库id + 文件的相对路径md5
-    @NonNull
-    @Indexed(unique = true)
-    private String articleId;
 
     @NonNull
     private String reposId;
