@@ -1,10 +1,3 @@
-# SiteSetting
-site-setting:
-  title: yining's Blog
-  subtitle: yining's Blog
-  description: 个人博客
-  author: yining
-
 # 服务配置
 server:
   port: 8989
@@ -14,10 +7,6 @@ spring:
     active: dev
   application:
     name: dxblog
-  cache:
-    cache-names: ehcache
-    ehcache:
-      config: ehcache.xml
   freemarker:
     enabled: true
     cache: false

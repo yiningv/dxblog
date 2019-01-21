@@ -4,9 +4,12 @@ import com.yiningv.dxblog.model.Article;
 import com.yiningv.dxblog.repository.ArticleRepository;
 import com.yiningv.dxblog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -20,12 +23,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public Page<Article> findAll(Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 
     @Override
-    public void aaaa() {
-        articleRepository.findAllTags();
+    public Optional<Article> findById(String articleId) {
+        return articleRepository.findById(articleId);
     }
+
 }

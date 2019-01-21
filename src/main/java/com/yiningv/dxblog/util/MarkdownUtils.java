@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MarkdownUtils {
+public final class MarkdownUtils {
 
     private MarkdownUtils() {
         throw new UnsupportedOperationException();

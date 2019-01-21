@@ -30,9 +30,15 @@ public class ArticleOperationsImpl implements ArticleOperations {
         return results.getMappedResults();
     }
 
-    @Override
-    public void deleteByReposId(String reposId) {
-        mongoOperations.remove(new Query(Criteria.where("reposId").is(reposId)), Article.class);
-    }
+//    @Override
+////    public void deleteByReposId(String reposId) {
+////        mongoOperations.remove(new Query(Criteria.where("reposId").is(reposId)), Article.class);
+////    }
+
+//    @Override
+//    public List<Article> findAllByReposId(String reposId) {
+//        List<Article> articles = mongoOperations.find(new Query(Criteria.where("reposId").is(reposId)), Article.class);
+//        return articles;
+//    }
 
 }

@@ -14,16 +14,13 @@
             </div>
             <div class="column is-9">
                 <div class="content">
-                    <#list demos as demo>
+                    <#list posts as post>
                         <div class="card">
                             <div class="card-content">
                                 <article>
-                                    <h1>${demo}</h1>
+                                    <h1><a href="/post/${post.id}">${post.title}</a></h1>
                                     <div class="content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                                        <a href="#">#css</a> <a href="#">#responsive</a>
-                                        <br>
+                                        ${post.description}
                                     </div>
                                     <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
                                 </article>
