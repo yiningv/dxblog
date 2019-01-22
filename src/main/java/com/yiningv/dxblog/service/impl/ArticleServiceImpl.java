@@ -1,6 +1,7 @@
 package com.yiningv.dxblog.service.impl;
 
 import com.yiningv.dxblog.model.Article;
+import com.yiningv.dxblog.model.TagCount;
 import com.yiningv.dxblog.repository.ArticleRepository;
 import com.yiningv.dxblog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> findById(String articleId) {
         return articleRepository.findById(articleId);
+    }
+
+    @Override
+    public List<TagCount> findAllTags() {
+        return articleRepository.findAllTags();
     }
 
 }

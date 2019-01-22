@@ -24,8 +24,8 @@ public class ArticleOperationsImpl implements ArticleOperations {
     public List<TagCount> findAllTags() {
         TypedAggregation<Article> aggregation = Aggregation.newAggregation(Article.class,
                 Aggregation.unwind("tags"),
-                Aggregation.group("tags").count().as("tagCount"),
-                Aggregation.project("_id", "tagCount"));
+                Aggregation.group("tags").count().as("count"),
+                Aggregation.project("_id", "count"));
         AggregationResults<TagCount> results = mongoOperations.aggregate(aggregation, TagCount.class);
         return results.getMappedResults();
     }

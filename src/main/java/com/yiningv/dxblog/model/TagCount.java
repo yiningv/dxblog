@@ -8,6 +8,6 @@ import org.springframework.data.annotation.Id;
 @ToString
 public class TagCount {
     @Id
-    private String tag;
-    private Integer tagCount;
+    private String name;
+    private Integer count;
 }

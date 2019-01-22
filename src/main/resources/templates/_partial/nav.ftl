@@ -18,7 +18,7 @@
         </div>
         <div id="navMenuIndex" class="navbar-menu">
             <div class="navbar-end">
-                <a href="/archives" class="navbar-item">归档</a>
+                <a href="/archive" class="navbar-item">归档</a>
                 <a href="/tags" class="navbar-item">标签</a>
                 <a href="/about" class="navbar-item">关于</a>
             </div>

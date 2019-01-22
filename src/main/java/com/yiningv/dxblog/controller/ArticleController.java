@@ -1,6 +1,8 @@
 package com.yiningv.dxblog.controller;
 
+import com.yiningv.dxblog.DX;
 import com.yiningv.dxblog.model.Article;
+import com.yiningv.dxblog.model.TagCount;
 import com.yiningv.dxblog.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,22 +10,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
-public class ArticleController {
+public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping(path = {"/", "/index", "/home"})
+    @RequestMapping(path = {"/", "/index"})
     public String index(
             @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
@@ -34,7 +39,8 @@ public class ArticleController {
         model.addAttribute("currentPage", pageable.getPageNumber() + 1);
         model.addAttribute("pageSize", articlePage.getTotalPages());
         model.addAttribute("totalCount", articlePage.getTotalElements());
-        model.addAttribute("body", "index");
+        metaInfo(DX.TITLE, DX.SUBTITLE, DX.DESCRIPTION, model);
+        body("index", model);
         return "layout";
     }
 
@@ -43,8 +49,31 @@ public class ArticleController {
             @PathVariable("articleId") String articleId,
             Model model) {
         Optional<Article> articleOptional = articleService.findById(articleId);
-        model.addAttribute("post", articleOptional.get());
-        model.addAttribute("body", "post");
+        Article article = articleOptional.get();
+        metaInfo(DX.TITLE, DX.SUBTITLE, DX.DESCRIPTION, model);
+        model.addAttribute("post", article);
+        body("post", model);
+        new ModelAndView().setStatus(HttpStatus.NOT_FOUND);
+        return "layout";
+    }
+
+    @RequestMapping(path = "/archive", method = RequestMethod.GET)
+    public String archive(Model model) {
+        body("archive", model);
+        return "layout";
+    }
+
+    @RequestMapping(path = "/tags", method = RequestMethod.GET)
+    public String tags(Model model) {
+        List<TagCount> tags = articleService.findAllTags();
+        model.addAttribute("tags", tags);
+        body("tags", model);
+        return "layout";
+    }
+
+    @RequestMapping(path = "/about", method = RequestMethod.GET)
+    public String about(Model model) {
+        body("about", model);
         return "layout";
     }
 }

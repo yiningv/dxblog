@@ -4,7 +4,9 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <#include "_source/head.ftl">
+    <link rel="stylesheet" type="text/css" href="/css/bulma/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/markdown-body.css">
+    <link rel="stylesheet" type="text/css" href="/css/prism.min.css">
 
     <title>test</title>
 </head>
