@@ -1,5 +1,5 @@
 /* PrismJS 1.15.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+c+cpp+clojure+docker+git+go+java+json+kotlin+markdown+lua+python+typescript+yaml */
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+c+clojure+docker+git+go+java+json+markdown+lua+sql+python+typescript+yaml */
 var _self = (typeof window !== 'undefined')
 	? window   // if in browser
 	: (
@@ -214,33 +214,37 @@ var _ = _self.Prism = {
 			code: code
 		};
 
+		var insertHighlightedCode = function (highlightedCode) {
+			env.highlightedCode = highlightedCode;
+
+			_.hooks.run('before-insert', env);
+
+			env.element.innerHTML = env.highlightedCode;
+
+			_.hooks.run('after-highlight', env);
+			_.hooks.run('complete', env);
+			callback && callback.call(env.element);
+		}
+
 		_.hooks.run('before-sanity-check', env);
 
-		if (!env.code || !env.grammar) {
-			if (env.code) {
-				_.hooks.run('before-highlight', env);
-				env.element.textContent = env.code;
-				_.hooks.run('after-highlight', env);
-			}
+		if (!env.code) {
 			_.hooks.run('complete', env);
 			return;
 		}
 
 		_.hooks.run('before-highlight', env);
 
+		if (!env.grammar) {
+			insertHighlightedCode(_.util.encode(env.code));
+			return;
+		}
+
 		if (async && _self.Worker) {
 			var worker = new Worker(_.filename);
 
 			worker.onmessage = function(evt) {
-				env.highlightedCode = evt.data;
-
-				_.hooks.run('before-insert', env);
-
-				env.element.innerHTML = env.highlightedCode;
-
-				_.hooks.run('after-highlight', env);
-				_.hooks.run('complete', env);
-				callback && callback.call(env.element);
+				insertHighlightedCode(evt.data);
 			};
 
 			worker.postMessage(JSON.stringify({
@@ -250,17 +254,7 @@ var _ = _self.Prism = {
 			}));
 		}
 		else {
-			env.highlightedCode = _.highlight(env.code, env.grammar, env.language);
-
-			_.hooks.run('before-insert', env);
-
-			env.element.innerHTML = env.highlightedCode;
-
-			_.hooks.run('after-highlight', env);
-
-			_.hooks.run('complete', env);
-
-			callback && callback.call(element);
+			insertHighlightedCode(_.highlight(env.code, env.grammar, env.language));
 		}
 	},
 
@@ -819,24 +813,6 @@ Prism.languages.insertBefore('c', 'string', {
 
 delete Prism.languages.c['boolean'];
 
-Prism.languages.cpp = Prism.languages.extend('c', {
-	'class-name': {
-		pattern: /(\b(?:class|enum|struct)\s+)\w+/,
-		lookbehind: true
-	},
-	'keyword': /\b(?:alignas|alignof|asm|auto|bool|break|case|catch|char|char16_t|char32_t|class|compl|const|constexpr|const_cast|continue|decltype|default|delete|do|double|dynamic_cast|else|enum|explicit|export|extern|float|for|friend|goto|if|inline|int|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|long|mutable|namespace|new|noexcept|nullptr|operator|private|protected|public|register|reinterpret_cast|return|short|signed|sizeof|static|static_assert|static_cast|struct|switch|template|this|thread_local|throw|try|typedef|typeid|typename|union|unsigned|using|virtual|void|volatile|wchar_t|while)\b/,
-	'boolean': /\b(?:true|false)\b/,
-	'operator': />>=?|<<=?|->|([-+&|:])\1|[?:~]|[-+*/%&|^!=<>]=?|\b(?:and|and_eq|bitand|bitor|not|not_eq|or|or_eq|xor|xor_eq)\b/
-});
-
-Prism.languages.insertBefore('cpp', 'string', {
-	'raw-string': {
-		pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/,
-		alias: 'string',
-		greedy: true
-	}
-});
-
 // Copied from https://github.com/jeluard/prism-clojure
 Prism.languages.clojure = {
 	comment: /;+.*/,
@@ -1018,69 +994,6 @@ Prism.languages.json = {
 };
 
 Prism.languages.jsonp = Prism.languages.json;
-
-(function (Prism) {
-	Prism.languages.kotlin = Prism.languages.extend('clike', {
-		'keyword': {
-			// The lookbehind prevents wrong highlighting of e.g. kotlin.properties.get
-			pattern: /(^|[^.])\b(?:abstract|actual|annotation|as|break|by|catch|class|companion|const|constructor|continue|crossinline|data|do|dynamic|else|enum|expect|external|final|finally|for|fun|get|if|import|in|infix|init|inline|inner|interface|internal|is|lateinit|noinline|null|object|open|operator|out|override|package|private|protected|public|reified|return|sealed|set|super|suspend|tailrec|this|throw|to|try|typealias|val|var|vararg|when|where|while)\b/,
-			lookbehind: true
-		},
-		'function': [
-			/\w+(?=\s*\()/,
-			{
-				pattern: /(\.)\w+(?=\s*\{)/,
-				lookbehind: true
-			}
-		],
-		'number': /\b(?:0[xX][\da-fA-F]+(?:_[\da-fA-F]+)*|0[bB][01]+(?:_[01]+)*|\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?[fFL]?)\b/,
-		'operator': /\+[+=]?|-[-=>]?|==?=?|!(?:!|==?)?|[\/*%<>]=?|[?:]:?|\.\.|&&|\|\||\b(?:and|inv|or|shl|shr|ushr|xor)\b/
-	});
-
-	delete Prism.languages.kotlin["class-name"];
-
-	Prism.languages.insertBefore('kotlin', 'string', {
-		'raw-string': {
-			pattern: /("""|''')[\s\S]*?\1/,
-			alias: 'string'
-			// See interpolation below
-		}
-	});
-	Prism.languages.insertBefore('kotlin', 'keyword', {
-		'annotation': {
-			pattern: /\B@(?:\w+:)?(?:[A-Z]\w*|\[[^\]]+\])/,
-			alias: 'builtin'
-		}
-	});
-	Prism.languages.insertBefore('kotlin', 'function', {
-		'label': {
-			pattern: /\w+@|@\w+/,
-			alias: 'symbol'
-		}
-	});
-
-	var interpolation = [
-		{
-			pattern: /\$\{[^}]+\}/,
-			inside: {
-				delimiter: {
-					pattern: /^\$\{|\}$/,
-					alias: 'variable'
-				},
-				rest: Prism.languages.kotlin
-			}
-		},
-		{
-			pattern: /\$\w+/,
-			alias: 'variable'
-		}
-	];
-
-	Prism.languages.kotlin['string'].inside = Prism.languages.kotlin['raw-string'].inside = {
-		interpolation: interpolation
-	};
-
-}(Prism));
 
 Prism.languages.markdown = Prism.languages.extend('markup', {});
 Prism.languages.insertBefore('markdown', 'prolog', {
@@ -1331,6 +1244,31 @@ Prism.languages.lua = {
 	],
 	'punctuation': /[\[\](){},;]|\.+|:+/
 };
+Prism.languages.sql = {
+	'comment': {
+		pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*)/,
+		lookbehind: true
+	},
+	'variable': [
+		{
+			pattern: /@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
+			greedy: true
+		},
+		/@[\w.$]+/
+	],
+	'string': {
+		pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\]|\2\2)*\2/,
+		greedy: true,
+		lookbehind: true
+	},
+	'function': /\b(?:AVG|COUNT|FIRST|FORMAT|LAST|LCASE|LEN|MAX|MID|MIN|MOD|NOW|ROUND|SUM|UCASE)(?=\s*\()/i, // Should we highlight user defined functions too?
+	'keyword': /\b(?:ACTION|ADD|AFTER|ALGORITHM|ALL|ALTER|ANALYZE|ANY|APPLY|AS|ASC|AUTHORIZATION|AUTO_INCREMENT|BACKUP|BDB|BEGIN|BERKELEYDB|BIGINT|BINARY|BIT|BLOB|BOOL|BOOLEAN|BREAK|BROWSE|BTREE|BULK|BY|CALL|CASCADED?|CASE|CHAIN|CHAR(?:ACTER|SET)?|CHECK(?:POINT)?|CLOSE|CLUSTERED|COALESCE|COLLATE|COLUMNS?|COMMENT|COMMIT(?:TED)?|COMPUTE|CONNECT|CONSISTENT|CONSTRAINT|CONTAINS(?:TABLE)?|CONTINUE|CONVERT|CREATE|CROSS|CURRENT(?:_DATE|_TIME|_TIMESTAMP|_USER)?|CURSOR|CYCLE|DATA(?:BASES?)?|DATE(?:TIME)?|DAY|DBCC|DEALLOCATE|DEC|DECIMAL|DECLARE|DEFAULT|DEFINER|DELAYED|DELETE|DELIMITERS?|DENY|DESC|DESCRIBE|DETERMINISTIC|DISABLE|DISCARD|DISK|DISTINCT|DISTINCTROW|DISTRIBUTED|DO|DOUBLE|DROP|DUMMY|DUMP(?:FILE)?|DUPLICATE|ELSE(?:IF)?|ENABLE|ENCLOSED|END|ENGINE|ENUM|ERRLVL|ERRORS|ESCAPED?|EXCEPT|EXEC(?:UTE)?|EXISTS|EXIT|EXPLAIN|EXTENDED|FETCH|FIELDS|FILE|FILLFACTOR|FIRST|FIXED|FLOAT|FOLLOWING|FOR(?: EACH ROW)?|FORCE|FOREIGN|FREETEXT(?:TABLE)?|FROM|FULL|FUNCTION|GEOMETRY(?:COLLECTION)?|GLOBAL|GOTO|GRANT|GROUP|HANDLER|HASH|HAVING|HOLDLOCK|HOUR|IDENTITY(?:_INSERT|COL)?|IF|IGNORE|IMPORT|INDEX|INFILE|INNER|INNODB|INOUT|INSERT|INT|INTEGER|INTERSECT|INTERVAL|INTO|INVOKER|ISOLATION|ITERATE|JOIN|KEYS?|KILL|LANGUAGE|LAST|LEAVE|LEFT|LEVEL|LIMIT|LINENO|LINES|LINESTRING|LOAD|LOCAL|LOCK|LONG(?:BLOB|TEXT)|LOOP|MATCH(?:ED)?|MEDIUM(?:BLOB|INT|TEXT)|MERGE|MIDDLEINT|MINUTE|MODE|MODIFIES|MODIFY|MONTH|MULTI(?:LINESTRING|POINT|POLYGON)|NATIONAL|NATURAL|NCHAR|NEXT|NO|NONCLUSTERED|NULLIF|NUMERIC|OFF?|OFFSETS?|ON|OPEN(?:DATASOURCE|QUERY|ROWSET)?|OPTIMIZE|OPTION(?:ALLY)?|ORDER|OUT(?:ER|FILE)?|OVER|PARTIAL|PARTITION|PERCENT|PIVOT|PLAN|POINT|POLYGON|PRECEDING|PRECISION|PREPARE|PREV|PRIMARY|PRINT|PRIVILEGES|PROC(?:EDURE)?|PUBLIC|PURGE|QUICK|RAISERROR|READS?|REAL|RECONFIGURE|REFERENCES|RELEASE|RENAME|REPEAT(?:ABLE)?|REPLACE|REPLICATION|REQUIRE|RESIGNAL|RESTORE|RESTRICT|RETURNS?|REVOKE|RIGHT|ROLLBACK|ROUTINE|ROW(?:COUNT|GUIDCOL|S)?|RTREE|RULE|SAVE(?:POINT)?|SCHEMA|SECOND|SELECT|SERIAL(?:IZABLE)?|SESSION(?:_USER)?|SET(?:USER)?|SHARE|SHOW|SHUTDOWN|SIMPLE|SMALLINT|SNAPSHOT|SOME|SONAME|SQL|START(?:ING)?|STATISTICS|STATUS|STRIPED|SYSTEM_USER|TABLES?|TABLESPACE|TEMP(?:ORARY|TABLE)?|TERMINATED|TEXT(?:SIZE)?|THEN|TIME(?:STAMP)?|TINY(?:BLOB|INT|TEXT)|TOP?|TRAN(?:SACTIONS?)?|TRIGGER|TRUNCATE|TSEQUAL|TYPES?|UNBOUNDED|UNCOMMITTED|UNDEFINED|UNION|UNIQUE|UNLOCK|UNPIVOT|UNSIGNED|UPDATE(?:TEXT)?|USAGE|USE|USER|USING|VALUES?|VAR(?:BINARY|CHAR|CHARACTER|YING)|VIEW|WAITFOR|WARNINGS|WHEN|WHERE|WHILE|WITH(?: ROLLUP|IN)?|WORK|WRITE(?:TEXT)?|YEAR)\b/i,
+	'boolean': /\b(?:TRUE|FALSE|NULL)\b/i,
+	'number': /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
+	'operator': /[-+*\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|LIKE|NOT|OR|IS|DIV|REGEXP|RLIKE|SOUNDS LIKE|XOR)\b/i,
+	'punctuation': /[;[\]()`,.]/
+};
+
 Prism.languages.python = {
 	'comment': {
 		pattern: /(^|[^\\])#.*/,
