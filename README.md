@@ -1,2 +1,3 @@
 # dxblog
-dxblog
+
+通过github的webhook拉取同步到posts文件夹下的markdown文件，利用flexmark解析成html，完成一个简单的博客
