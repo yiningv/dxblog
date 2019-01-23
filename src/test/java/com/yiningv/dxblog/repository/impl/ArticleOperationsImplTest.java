@@ -39,7 +39,7 @@ public class ArticleOperationsImplTest {
 
     @After
     public void tearDown() throws Exception {
-        articleRepository.deleteAll();
+        articleRepository.deleteByReposId(reposId);
     }
 
     @Test

@@ -32,13 +32,13 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(path = {"/", "/index"})
     public String index(
-            @PageableDefault(size = 5, sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
         Page<Article> articlePage = articleService.findAll(pageable);
         List<Article> articles = articlePage.getContent();
         model.addAttribute("posts", articles);
-        PageInfo pageInfo = new PageInfo(pageable.getPageNumber() + 1, articlePage.getTotalPages());
+        PageInfo pageInfo = new PageInfo(pageable.getPageNumber(), articlePage.getTotalPages());
         model.addAttribute("pageInfo", pageInfo);
         metaInfo(DX.TITLE, DX.SUBTITLE, DX.DESCRIPTION, model);
         body("index", model);

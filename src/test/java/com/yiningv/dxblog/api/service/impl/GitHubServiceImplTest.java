@@ -33,7 +33,7 @@ public class GitHubServiceImplTest {
 
     @After
     public void tearDown() throws Exception {
-        articleRepository.deleteAll();
+
     }
 
     @Test

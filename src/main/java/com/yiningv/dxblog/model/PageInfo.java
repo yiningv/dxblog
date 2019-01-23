@@ -13,8 +13,8 @@ public class PageInfo {
     public PageInfo(int current, int total) {
         this.current = current;
         this.total = total;
-        this.prev = current > 1;
-        this.next = current < total;
+        this.prev = (current+1) > 1;
+        this.next = (current+1) < total;
     }
 
     public int getCurrent() {
