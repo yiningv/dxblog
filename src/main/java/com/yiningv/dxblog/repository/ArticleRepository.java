@@ -13,4 +13,5 @@ public interface ArticleRepository extends MongoRepository<Article, String>, Art
 
     void deleteByReposId(String reposId);
     List<Article> findAllByReposId(String reposId);
+    List<Article> findByTagsOrderByCreatedDesc(String tag);
 }

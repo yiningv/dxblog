@@ -16,4 +16,6 @@ public interface ArticleService {
     Optional<Article> findById(String articleId);
 
     List<TagCount> findAllTags();
+
+    List<Article> findByTags(String tag);
 }

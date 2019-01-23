@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,7 +42,7 @@ public class Article {
 
     private String category;
 
-    private Set<String> tags;
+    private List<String> tags;
 
     private Date created;
 

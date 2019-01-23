@@ -38,4 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findAllTags();
     }
 
+    @Override
+    public List<Article> findByTags(String tag) {
+        return articleRepository.findByTagsOrderByCreatedDesc(tag);
+    }
+
 }

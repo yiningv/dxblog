@@ -3,6 +3,7 @@ package com.yiningv.dxblog.api.service.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.yiningv.dxblog.DxConst;
 import com.yiningv.dxblog.api.service.GitHubService;
@@ -151,7 +152,7 @@ public class GitHubServiceImpl implements GitHubService {
                 .description(description)
                 .content(htmlContent)
                 .category(category)
-                .tags(tags)
+                .tags(Lists.newArrayList(tags))
                 .created(created)
                 .build();
         return Optional.ofNullable(article);

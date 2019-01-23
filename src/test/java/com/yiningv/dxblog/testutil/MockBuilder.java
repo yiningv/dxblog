@@ -1,6 +1,6 @@
 package com.yiningv.dxblog.testutil;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.yiningv.dxblog.model.Article;
 
 import java.util.Date;
@@ -20,7 +20,7 @@ public final class MockBuilder {
                 .description(index)
                 .content(index)
                 .category(index)
-                .tags(Sets.newHashSet(index, "tag"))
+                .tags(Lists.newArrayList(index, "tag"))
                 .created(new Date())
                 .build();
     }

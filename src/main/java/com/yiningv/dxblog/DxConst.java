@@ -6,5 +6,5 @@ public interface DxConst {
     // 文章所在文件夹根目录
     String ARTICLE_ROOT = "posts";
     String IMAGES_PREFIX = "images";
-    String OTHER = "其他";
+    String OTHER = "未分类";
 }

@@ -2,6 +2,7 @@ package com.yiningv.dxblog.controller;
 
 import com.yiningv.dxblog.DX;
 import com.yiningv.dxblog.model.Article;
+import com.yiningv.dxblog.model.PageInfo;
 import com.yiningv.dxblog.model.TagCount;
 import com.yiningv.dxblog.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -30,15 +32,14 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(path = {"/", "/index"})
     public String index(
-            @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 5, sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
         Page<Article> articlePage = articleService.findAll(pageable);
         List<Article> articles = articlePage.getContent();
         model.addAttribute("posts", articles);
-        model.addAttribute("currentPage", pageable.getPageNumber() + 1);
-        model.addAttribute("pageSize", articlePage.getTotalPages());
-        model.addAttribute("totalCount", articlePage.getTotalElements());
+        PageInfo pageInfo = new PageInfo(pageable.getPageNumber() + 1, articlePage.getTotalPages());
+        model.addAttribute("pageInfo", pageInfo);
         metaInfo(DX.TITLE, DX.SUBTITLE, DX.DESCRIPTION, model);
         body("index", model);
         return "layout";
@@ -68,6 +69,14 @@ public class ArticleController extends BaseController {
         List<TagCount> tags = articleService.findAllTags();
         model.addAttribute("tags", tags);
         body("tags", model);
+        return "layout";
+    }
+
+    @RequestMapping(path = "/tag/{tag}", method = RequestMethod.GET)
+    public String tag(@PathVariable("tag") String tag, Model model) {
+        List<Article> articles = articleService.findByTags(tag);
+        model.addAttribute("posts", articles);
+        body("index", model);
         return "layout";
     }
 
