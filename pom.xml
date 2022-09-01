@@ -19,7 +19,7 @@
         <flexmark.version>0.40.0</flexmark.version>
         <log4j.version>2.6.2</log4j.version>
         <guava.version>29.0-jre</guava.version>
-        <jsoup.version>1.14.2</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <commons-codec.version>1.11</commons-codec.version>
         <commons-io.version>2.7</commons-io.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
